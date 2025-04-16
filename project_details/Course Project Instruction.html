@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: Lato, sans-serif; font-size: 12px;"><p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-family: 'Times New Roman', serif;">1. Project Description</span></strong></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">In modern data mining tasks, graphs are a powerful representation of relationships. For example, in a social network (e.g., Facebook, LinkedIn), the interaction of users can form a graph, where each node represents one user and edges represent social interactions, such as friendships, follows, or interactions on social media platforms. Node classification is a key task that involves predicting labels or categories for nodes within a graph. Thus, this project will focus on the task of node classification in a single graph. This is a competition among different groups. The performance of your submission would determine your grades for this project.</span></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-family: 'Times New Roman', serif;">2. Objective</span></strong></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Design and implement a node classification model on the graph (see attached dataset). The objective is to predict the class label for each node based on their features and the relationships they have with other nodes. </span></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-family: 'Times New Roman', serif;">3. Dataset Details</span></strong></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">There are 2480 nodes in total and each node belongs to one of 7 classes. Each node in the graph is associated with a feature vector and a label (class). The connection between nodes is stored in an adjacent matrix.</span></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">The provided files include (see the tutorial “intro_pyg” for more illustration):</span></p>
+<ol style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 0px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">An adjacency matrix: stored in file adj.npz </span></li>
+</ol>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Each entry in this matrix indicates whether two nodes are connected or not</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">E.g., adj[i, j] = 0 if node i and node j are disconnected, adj[i, j] &gt; 0 otherwise</span></li>
+</ul>
+<ol start="2" style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 0px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">A feature matrix: stored in file features.npy </span></li>
+</ol>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Each row represents the feature vector of a node</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">E.g., features[i] represents the feature vector of node i</span></li>
+</ul>
+<ol start="3" style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 0px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">A list of labels: stored in file labels.npy </span></li>
+</ol>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Include class labels of training labels</span></li>
+</ul>
+<ol start="4" style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 0px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Data splits (train/test splits): stored in splits.json</span></li>
+</ol>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">splits[‘idx_train’]: node index for training nodes</span></li>
+<li style="margin: 0in 0in 8pt 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">splits[‘idx_test’]: node index for testing nodes</span></li>
+</ul>
+<div align="center">
+<table cellpadding="0" cellspacing="0" border="0" class="MsoNormalTable" style="width: 3.9in; border-collapse: collapse;">
+<tbody>
+<tr style="height: 19.95pt;">
+<td valign="top" style="width: 15.4pt; border: 1pt solid rgb(158, 158, 158); padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">#Nodes</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); border-bottom: 1pt solid rgb(158, 158, 158); border-image: initial; border-left: none; padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">#Edges</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); border-bottom: 1pt solid rgb(158, 158, 158); border-image: initial; border-left: none; padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">#Classes</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); border-bottom: 1pt solid rgb(158, 158, 158); border-image: initial; border-left: none; padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">#Features</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); border-bottom: 1pt solid rgb(158, 158, 158); border-image: initial; border-left: none; padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Train/Test</span></p>
+</td>
+</tr>
+<tr style="height: 12.3pt;">
+<td valign="top" style="width: 15.4pt; border-right: 1pt solid rgb(158, 158, 158); border-bottom: 1pt solid rgb(158, 158, 158); border-left: 1pt solid rgb(158, 158, 158); border-image: initial; border-top: none; padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">2480</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: none; border-left: none; border-bottom: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">10100</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: none; border-left: none; border-bottom: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">7</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: none; border-left: none; border-bottom: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">1390</span></p>
+</td>
+<td valign="top" style="width: 97.4pt; border-top: none; border-left: none; border-bottom: 1pt solid rgb(158, 158, 158); border-right: 1pt solid rgb(158, 158, 158); padding: 0.1in;">
+<p style="text-align: center; margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">496/1984</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;">&nbsp;</p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-family: 'Times New Roman', serif;">4. Model Implementation</span></strong></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Any model for node classification is permitted. For example, one intuitive solution is MLP without using the graph structure (adjacency matrix), but this could be suboptimal (see the tutorial “intro_pyg” for this example).</span></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><i><span style="font-family: 'Times New Roman', serif;">Note: Though python examples are provided, other programming languages (e.g., MATLAB, C++, JAVA) is also acceptable for this project.</span></i></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-family: 'Times New Roman', serif;">5. Evaluation</span></strong></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Submit a file named {YourTeamName}_submission.txt, which includes the predicted class labels of testing nodes</span></p>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Each line in the file corresponds to the predicted label of a node </span></li>
+<li style="margin: 0in 0in 8pt 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">In total, there are 1984 nodes, and your file should have 1984 lines</span></li>
+</ul>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">The performance of your prediction will be evaluated based on the accuracy.</span></p>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">It is the ratio of correctly predicted nodes to all nodes </span></li>
+<li style="margin: 0in 0in 8pt 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">The higher, the better</span></li>
+</ul>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-family: 'Times New Roman', serif;">6. Submission Date and Grading (30% in total for this project)</span></strong></p>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">February 28<sup>th</sup> (one-page proposal): 5%</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">March 7<sup>th</sup>, 2025 (‘{YourTeamName}_submission.txt’):</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">March 21<sup>st</sup>, 2025 (‘{YourTeamName}_submission.txt’):</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">April 4<sup>th</sup>, 2025 (‘{YourTeamName}_submission.txt’):</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">April 16<sup>th</sup>, 2025 (‘{YourTeamName}_submission.txt’):</span></li>
+<li style="margin: 0in 0in 8pt 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">April 30<sup>th</sup>, 2025 (Final ‘{YourTeamName}_submission.txt’) + report&amp;code: 20% + 5%</span></li>
+</ul>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><b><span style="font-family: 'Times New Roman', serif; color: red;">Note: Only the last submission (April 30<sup>th</sup>) is required</span></b><span style="font-family: 'Times New Roman', serif;">. But if you want to test your model, you can submit at each submission date.</span></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Proposal (5%): 1 page (using the template: </span><a href="https://www.overleaf.com/latex/templates/aaai-press-latex-template/jymjdgdpdmxp"><span style="font-family: 'Times New Roman', serif;">https://www.overleaf.com/latex/templates/aaai-press-latex-template/jymjdgdpdmxp</span></a><span style="font-family: 'Times New Roman', serif;">)</span></p>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Team members (3~5 students for each group), team name (feel free to choose any team name, which will be used for showing performance ranking on Piazza later)</span></li>
+<li style="margin: 0in 0in 8pt 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Preliminary plan (milestones): what methods are you planning to explore, and why do think these methods are reasonable for this project.</span></li>
+</ul>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Result submission (20%):</span></p>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Each team submits only one ‘{YourTeamName}_submission.txt’ and code</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Make sure that the submitted code can reproduce the results</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Grading (T: total number of teams)</span></li>
+</ul>
+<table cellpadding="0" cellspacing="0" border="1" class="MsoTableGrid" style="margin-left: 0.75in; border-collapse: collapse; border: none;">
+<tbody>
+<tr>
+<td valign="top" style="width: 197.75pt; border: 1pt solid windowtext; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Rank</span></p>
+</td>
+<td valign="top" style="width: 80.45pt; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Grade </span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 197.75pt; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">1 ~ T / 5</span></p>
+</td>
+<td valign="top" style="width: 80.45pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">100</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 197.75pt; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">T / 5 ~ 2T / 5</span></p>
+</td>
+<td valign="top" style="width: 80.45pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">90</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 197.75pt; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">2T / 5 ~ 3T / 5</span></p>
+</td>
+<td valign="top" style="width: 80.45pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">80</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 197.75pt; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">3T / 5 ~ 4T / 5</span></p>
+</td>
+<td valign="top" style="width: 80.45pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">70</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 197.75pt; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">4T / 5 ~ T</span></p>
+</td>
+<td valign="top" style="width: 80.45pt; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0in 5.4pt;">
+<p style="margin: 0in; line-height: normal; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">60</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="margin: 0in 0in 8pt 0.75in; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;">&nbsp;</p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Final Report (5%): 2~3 pages (using the template: </span><a href="https://www.overleaf.com/latex/templates/aaai-press-latex-template/jymjdgdpdmxp"><span style="font-family: 'Times New Roman', serif;">https://www.overleaf.com/latex/templates/aaai-press-latex-template/jymjdgdpdmxp</span></a><span style="font-family: 'Times New Roman', serif;">)</span></p>
+<ul style="margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Methodology and Implementation</span></li>
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">List of team members and their contributions. Specify clearly what is the role of each team member. For example: </span>
+<ul style="list-style-type: circle; margin-bottom: 0in; margin-top: 0px;">
+<li style="margin: 0in 0in 0in 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Student 1: Wrote python scripts for data preprocessing, paper exploration, algorithm implementation, debugging, etc. </span></li>
+<li style="margin: 0in 0in 8pt 24px; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">Student 2: Wrote python scripts for hyperparameter search, final report, etc.</span></li>
+</ul>
+</li>
+</ul>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'Times New Roman', serif;">If you have any confusion, feel free to post your question on Piazza or email the instructor (wujun4 at msu dot edu).</span></p>
+<p style="margin: 0in 0in 8pt; line-height: 115%; font-size: 12pt; font-family: Aptos, sans-serif;">&nbsp;</p></body></html>
